@@ -1,0 +1,8 @@
+<resources>
+    <!--api-->
+    <string name="customer_id"></string>
+    <string name="api_secret"></string>
+    <!--app-->
+    <string name="app_name">GrooVe IP Client</string>
+    <string name="label_search_numbers_activity">Search Numbers</string>
+</resources>
