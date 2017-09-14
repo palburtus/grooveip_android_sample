@@ -38,7 +38,7 @@ public class SearchNumbersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_numbers);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mAreaCodeEditText = (EditText) findViewById(R.id.edit_text_area_code);
         mSearchButton = (Button) findViewById(R.id.button_search_area_code);
@@ -57,8 +57,6 @@ public class SearchNumbersActivity extends AppCompatActivity {
                 }
             }
         });
-
-        makeNumbersRequest();
     }
 
     private void makeNumbersRequest(){
