@@ -1,8 +1,13 @@
 <resources>
     <!--api-->
-    <string name="customer_id"></string>
-    <string name="api_secret"></string>
+
     <!--app-->
     <string name="app_name">GrooVe IP Client</string>
     <string name="label_search_numbers_activity">Search Numbers</string>
+
+    <!--search numbers activity-->
+    <string name="search_numbers_instructions">Search for available numbers by area code.</string>
+    <string name="area_code_label">Area Code</string>
+    <string name="area_code_hint">917</string>
+    <string name="area_code_button_text">Search</string>
 </resources>

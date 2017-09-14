@@ -4,7 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.gvip.snrb.sdk.R;
 import com.gvip.snrb.sdk.api.ApiClient;
 import com.gvip.snrb.sdk.tasks.HttpGetTask;
 import com.gvip.snrb.sdk.utils.HashGenerator;
@@ -20,16 +25,40 @@ public class SearchNumbersActivity extends AppCompatActivity {
 
     private static final String TAG = SearchNumbersActivity.class.getSimpleName();
 
-    private String mAreaCode = "732";
+    private EditText mAreaCodeEditText;
+    private Button mSearchButton;
+
+    private String mAreaCode;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAreaCodeEditText = (EditText) findViewById(R.id.edit_text_area_code);
+        mSearchButton = (Button) findViewById(R.id.button_search_area_code);
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mAreaCode != null && mAreaCode != ""){
+                    if(mAreaCode.length() != 3){
+                        Toast.makeText(getApplicationContext(), "Area code must be 3 digits", Toast.LENGTH_SHORT).show();
+                    }else {
+                        mAreaCode = mAreaCodeEditText.getText().toString();
+                        makeNumbersRequest();
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(), "Please enter an area code", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         makeNumbersRequest();
     }
 
     private void makeNumbersRequest(){
-        ApiClient apiClient = ApiClient.getInstance(this);
+        ApiClient apiClient = ApiClient.getInstance();
         String requestId = UUID.randomUUID().toString();
         String hash = HashGenerator.bin2hex(HashGenerator.createSHA256Hash(apiClient.getClientId() + mAreaCode + requestId + apiClient.getApiSecret()));
 
