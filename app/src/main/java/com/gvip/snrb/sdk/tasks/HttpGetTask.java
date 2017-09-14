@@ -58,9 +58,4 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
 
         return result;
     }
-
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-    }
 }

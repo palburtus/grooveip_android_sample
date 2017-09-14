@@ -21,6 +21,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activities.SelectNumberActivity"
+            android:label="@string/label_search_numbers_activity"
+            android:parentActivityName=".activities.SearchNumbersActivity">
+        </activity>
+
     </application>
 
 </manifest>
