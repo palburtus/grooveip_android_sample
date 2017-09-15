@@ -4,6 +4,7 @@
     <!--app-->
     <string name="app_name">GrooVe IP Client</string>
     <string name="label_search_numbers_activity">Search Numbers</string>
+    <string name="label_select_numbers_activity">Select Number</string>
 
     <!--search numbers activity-->
     <string name="search_numbers_instructions">Search for available numbers by area code.</string>

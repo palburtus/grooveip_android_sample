@@ -16,8 +16,11 @@ import com.gvip.snrb.sdk.api.ApiClient;
 import com.gvip.snrb.sdk.tasks.HttpGetTask;
 import com.gvip.snrb.sdk.utils.HashGenerator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by pta on 9/4/2017.
@@ -45,6 +48,7 @@ public class SearchNumbersActivity extends AppCompatActivity {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAreaCode = mAreaCodeEditText.getText().toString();
                 if(mAreaCode != null && mAreaCode != ""){
                     if(mAreaCode.length() != 3){
                         Toast.makeText(getApplicationContext(), "Area code must be 3 digits", Toast.LENGTH_SHORT).show();
@@ -61,7 +65,7 @@ public class SearchNumbersActivity extends AppCompatActivity {
 
     private void makeNumbersRequest(){
         ApiClient apiClient = ApiClient.getInstance();
-        String requestId = UUID.randomUUID().toString();
+        final String requestId = UUID.randomUUID().toString();
         String hash = HashGenerator.bin2hex(HashGenerator.createSHA256Hash(apiClient.getClientId() + mAreaCode + requestId + apiClient.getApiSecret()));
 
         String url = String.format("http://dev-commercial-api.azurewebsites.net/api/numbers/list/%s/areaCode/%s/requestId/%s/hash/%s",
@@ -81,11 +85,25 @@ public class SearchNumbersActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
+
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    ArrayList<String> results = new ArrayList<>();
+
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        results.add(jsonArray.getString(i));
+                    }
+
+                    Intent intent = new Intent(SearchNumbersActivity.this, SelectNumberActivity.class);
+                    intent.putStringArrayListExtra("search_numbers_results", results);
+                    startActivity(intent);
+                } catch (JSONException ex) {
+                    Log.e(TAG, ex.getMessage());
+                }
+
                 mProgressBar.setVisibility(View.GONE);
 
-                Intent intent = new Intent(SearchNumbersActivity.this, SelectNumberActivity.class);
-                intent.putExtra("search_numbers_result", result);
-                startActivity(intent);
+
             }
         };
         task.execute(url);

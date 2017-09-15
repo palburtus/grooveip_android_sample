@@ -27,7 +27,7 @@
             android:name=".activities.SelectNumberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat.Light"
-            android:label="@string/label_search_numbers_activity"
+            android:label="@string/label_select_numbers_activity"
             android:parentActivityName=".activities.SearchNumbersActivity">
         </activity>
 
