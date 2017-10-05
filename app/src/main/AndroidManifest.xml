@@ -12,15 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".activities.NumbersInventoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light"
+            android:label="@string/label_numbers_inventory_activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.SearchNumbersActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat.Light"
             android:label="@string/label_search_numbers_activity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.gvip.snrb.sdk.R;
 import com.gvip.snrb.sdk.adapters.NumberListAdapter;
+import com.gvip.snrb.sdk.callbacks.IOnNumberSelectedListener;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  * Created by Patrick on 9/14/2017.
  */
 
-public class SelectNumberActivity extends AppCompatActivity {
+public class SelectNumberActivity extends AppCompatActivity implements IOnNumberSelectedListener {
 
     private static final String TAG = SelectNumberActivity.class.getSimpleName();
 
@@ -34,7 +35,12 @@ public class SelectNumberActivity extends AppCompatActivity {
 
         mResults = getIntent().getStringArrayListExtra("search_numbers_results");
 
-        NumberListAdapter adapter = new NumberListAdapter(mResults);
+        NumberListAdapter adapter = new NumberListAdapter(mResults, this);
         mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onNumberSelected(String number) {
+
     }
 }

@@ -3,10 +3,14 @@
 
     <!--app-->
     <string name="app_name">GrooVe IP Client</string>
+    <string name="label_numbers_inventory_activity">My Numbers</string>
     <string name="label_search_numbers_activity">Search Numbers</string>
     <string name="label_select_numbers_activity">Select Number</string>
 
-    <!--search numbers activity-->
+    <!--Numbers Inventory Activity-->
+    <string name="no_numbers_text">No Numbers Selected for this Account</string>
+
+    <!--Search Numbers Activity-->
     <string name="search_numbers_instructions">Search for available numbers by area code.</string>
     <string name="area_code_label">Area Code</string>
     <string name="area_code_hint">917</string>

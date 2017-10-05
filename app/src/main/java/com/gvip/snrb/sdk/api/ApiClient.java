@@ -6,8 +6,8 @@ package com.gvip.snrb.sdk.api;
 
 public class ApiClient {
 
-    private static final String API_SECRET = "YouAPISecret";
-    private static final String CLIENT_ID = "YourClientId";
+    private static final String API_SECRET = "";
+    private static final String CLIENT_ID = "";
 
     private static ApiClient mApiClient;
 

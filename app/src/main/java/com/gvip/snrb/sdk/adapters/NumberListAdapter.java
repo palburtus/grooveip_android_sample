@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gvip.snrb.sdk.R;
+import com.gvip.snrb.sdk.callbacks.IOnNumberSelectedListener;
 import com.gvip.snrb.sdk.viewholders.NumberViewHolder;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /**
  * Created by Patrick on 9/14/2017.
@@ -17,10 +17,12 @@ import java.util.zip.Inflater;
 
 public class NumberListAdapter extends RecyclerView.Adapter<NumberViewHolder> {
 
+    private IOnNumberSelectedListener mNumberSelectListener;
     private ArrayList<String> mItems;
 
-    public NumberListAdapter(ArrayList<String> items){
+    public NumberListAdapter(ArrayList<String> items, IOnNumberSelectedListener numberSelectedListener){
         mItems = items;
+        mNumberSelectListener = numberSelectedListener;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class NumberListAdapter extends RecyclerView.Adapter<NumberViewHolder> {
 
     @Override
     public void onBindViewHolder(NumberViewHolder holder, int position) {
-        holder.bind(mItems.get(position));
+        holder.bind(mItems.get(position), mNumberSelectListener);
     }
 
     @Override
