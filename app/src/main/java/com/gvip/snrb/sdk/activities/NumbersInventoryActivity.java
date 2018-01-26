@@ -34,7 +34,7 @@ public class NumbersInventoryActivity extends AppCompatActivity {
         mAddNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NumbersInventoryActivity.this, SelectNumberActivity.class);
+                Intent intent = new Intent(NumbersInventoryActivity.this, SearchNumbersActivity.class);
                 startActivity(intent);
             }
         });

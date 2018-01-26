@@ -41,6 +41,6 @@ public class SelectNumberActivity extends AppCompatActivity implements IOnNumber
 
     @Override
     public void onNumberSelected(String number) {
-
+        getParent().finish();
     }
 }

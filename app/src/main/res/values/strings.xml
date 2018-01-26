@@ -15,4 +15,5 @@
     <string name="area_code_label">Area Code</string>
     <string name="area_code_hint">917</string>
     <string name="area_code_button_text">Search</string>
+    <string name="add_number_button_label">Add Number</string>
 </resources>

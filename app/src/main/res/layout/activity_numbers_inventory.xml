@@ -1,37 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout
+
+    <TextView
+        android:id="@+id/no_numbers_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_numbers_text"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/inventory_recycler_view"
+        android:visibility="gone">
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/inventory_recycler_view"
-            android:visibility="gone">
+    </android.support.v7.widget.RecyclerView>
 
-        </android.support.v7.widget.RecyclerView>
+    <Button
+        android:id="@+id/add_number_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/add_number_button_label"/>
 
-        <TextView
-            android:id="@+id/no_numbers_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/no_numbers_text"
-            android:visibility="gone"
-            android:layout_centerInParent="true"/>
 
-        <Button
-            android:id="@+id/add_number_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Add Number"/>
 
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

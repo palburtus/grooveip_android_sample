@@ -1,10 +1,10 @@
 package com.gvip.snrb.sdk.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,14 +13,11 @@ import android.widget.Toast;
 
 import com.gvip.snrb.sdk.R;
 import com.gvip.snrb.sdk.api.ApiClient;
+import com.gvip.snrb.sdk.callbacks.ICallbackEvent;
 import com.gvip.snrb.sdk.tasks.HttpGetTask;
-import com.gvip.snrb.sdk.utils.HashGenerator;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Created by pta on 9/4/2017.
@@ -29,6 +26,8 @@ import java.util.UUID;
 public class SearchNumbersActivity extends AppCompatActivity {
 
     private static final String TAG = SearchNumbersActivity.class.getSimpleName();
+
+    private Activity mActivityThis;
 
     private EditText mAreaCodeEditText;
     private Button mSearchButton;
@@ -40,8 +39,11 @@ public class SearchNumbersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_numbers);
+        mActivityThis = this;
+
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mAreaCodeEditText = (EditText) findViewById(R.id.edit_text_area_code);
         mSearchButton = (Button) findViewById(R.id.button_search_area_code);
@@ -57,56 +59,41 @@ public class SearchNumbersActivity extends AppCompatActivity {
                         makeNumbersRequest();
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(), "Please enter an area code", Toast.LENGTH_SHORT).show();
+                    mActivityThis.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Please enter an area code", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
     }
 
     private void makeNumbersRequest(){
-        ApiClient apiClient = ApiClient.getInstance();
-        final String requestId = UUID.randomUUID().toString();
-        String hash = HashGenerator.bin2hex(HashGenerator.createSHA256Hash(apiClient.getClientId() + mAreaCode + requestId + apiClient.getApiSecret()));
 
-        String url = String.format("http://dev-commercial-api.azurewebsites.net/api/numbers/list/%s/areaCode/%s/requestId/%s/hash/%s",
-                apiClient.getClientId(),
-                mAreaCode,
-                requestId,
-                hash);
+        mProgressBar.setVisibility(View.VISIBLE);
 
-        HttpGetTask task = new HttpGetTask(){
-
+        HttpGetTask task = new HttpGetTask(new ICallbackEvent<ArrayList<String>, Exception>() {
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mProgressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-
-                try {
-                    JSONArray jsonArray = new JSONArray(result);
-                    ArrayList<String> results = new ArrayList<>();
-
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        results.add(jsonArray.getString(i));
-                    }
-
-                    Intent intent = new Intent(SearchNumbersActivity.this, SelectNumberActivity.class);
-                    intent.putStringArrayListExtra("search_numbers_results", results);
-                    startActivity(intent);
-                } catch (JSONException ex) {
-                    Log.e(TAG, ex.getMessage());
-                }
-
+            public void onSuccess(ArrayList<String> results) {
                 mProgressBar.setVisibility(View.GONE);
-
-
+                Intent intent = new Intent(SearchNumbersActivity.this, SelectNumberActivity.class);
+                intent.putStringArrayListExtra("search_numbers_results", results);
+                startActivity(intent);
             }
-        };
-        task.execute(url);
+
+            @Override
+            public void onError(final Exception error) {
+                mActivityThis.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error getting numbers: "+ error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+        task.execute(ApiClient.buildSearchNumbersUrl(mAreaCode));
 
     }
 }
