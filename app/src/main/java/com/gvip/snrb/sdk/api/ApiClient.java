@@ -29,6 +29,19 @@ public class ApiClient {
         return url;
     }
 
+    public static String buildNumbersInventoryUrl(){
+
+        String page = "1";
+        String quantity = "100";
+        String requestId = getRequestId();
+        String hash = HashGenerator.bin2hex(HashGenerator.createSHA256Hash(String.format("%s%s%s%s%s", CLIENT_ID, page, quantity, requestId, API_SECRET)));
+
+        String url = String.format("%s/numbers/inventory/%s/page/%s/quantity/%s/requestId/%s/hash/%s",
+                BASE_URL, CLIENT_ID, page, quantity, requestId, hash);
+
+        return url;
+    }
+
     private static String getRequestId(){
         return UUID.randomUUID().toString();
     }

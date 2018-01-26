@@ -1,5 +1,6 @@
 package com.gvip.snrb.sdk.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import com.gvip.snrb.sdk.R;
 import com.gvip.snrb.sdk.adapters.NumberListAdapter;
 import com.gvip.snrb.sdk.callbacks.IOnNumberSelectedListener;
+import com.gvip.snrb.sdk.constants.BundleKeys;
+import com.gvip.snrb.sdk.constants.Codes;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,9 @@ public class SelectNumberActivity extends AppCompatActivity implements IOnNumber
 
     @Override
     public void onNumberSelected(String number) {
-        getParent().finish();
+        Intent data = new Intent();
+        data.putExtra(BundleKeys.NUMBER, number);
+        setResult(Codes.SEARCH_NUMBER_RESULT, data);
+        finish();
     }
 }

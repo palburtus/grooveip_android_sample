@@ -18,7 +18,11 @@ import java.util.ArrayList;
 public class NumberListAdapter extends RecyclerView.Adapter<NumberViewHolder> {
 
     private IOnNumberSelectedListener mNumberSelectListener;
-    private ArrayList<String> mItems;
+    private ArrayList<String> mItems = new ArrayList<>();
+
+    public NumberListAdapter(IOnNumberSelectedListener numberSelectedListener){
+        mNumberSelectListener = numberSelectedListener;
+    }
 
     public NumberListAdapter(ArrayList<String> items, IOnNumberSelectedListener numberSelectedListener){
         mItems = items;
@@ -45,5 +49,9 @@ public class NumberListAdapter extends RecyclerView.Adapter<NumberViewHolder> {
         }else {
             return mItems.size();
         }
+    }
+
+    public void addNumber(String number){
+        mItems.add(number);
     }
 }

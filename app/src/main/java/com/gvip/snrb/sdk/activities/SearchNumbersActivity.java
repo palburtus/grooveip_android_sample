@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.gvip.snrb.sdk.R;
 import com.gvip.snrb.sdk.api.ApiClient;
 import com.gvip.snrb.sdk.callbacks.ICallbackEvent;
+import com.gvip.snrb.sdk.constants.Codes;
 import com.gvip.snrb.sdk.tasks.HttpGetTask;
 
 import java.util.ArrayList;
@@ -70,6 +71,16 @@ public class SearchNumbersActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Codes.SEARCH_NUMBER_REQUEST && resultCode == Codes.SEARCH_NUMBER_RESULT){
+            setResult(Codes.SEARCH_NUMBER_RESULT, data);
+            finish();
+        }
+    }
+
     private void makeNumbersRequest(){
 
         mProgressBar.setVisibility(View.VISIBLE);
@@ -80,7 +91,7 @@ public class SearchNumbersActivity extends AppCompatActivity {
                 mProgressBar.setVisibility(View.GONE);
                 Intent intent = new Intent(SearchNumbersActivity.this, SelectNumberActivity.class);
                 intent.putStringArrayListExtra("search_numbers_results", results);
-                startActivity(intent);
+                startActivityForResult(intent, Codes.SEARCH_NUMBER_REQUEST);
             }
 
             @Override
