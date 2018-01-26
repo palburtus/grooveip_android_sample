@@ -54,4 +54,8 @@ public class NumberListAdapter extends RecyclerView.Adapter<NumberViewHolder> {
     public void addNumber(String number){
         mItems.add(number);
     }
+
+    public void addNumbers(ArrayList<String> numbers) {
+        mItems.addAll(numbers);
+    }
 }

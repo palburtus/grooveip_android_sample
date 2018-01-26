@@ -6,15 +6,21 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.gvip.snrb.sdk.R;
 import com.gvip.snrb.sdk.adapters.NumberListAdapter;
+import com.gvip.snrb.sdk.api.ApiClient;
+import com.gvip.snrb.sdk.callbacks.ICallbackEvent;
 import com.gvip.snrb.sdk.callbacks.IOnNumberSelectedListener;
 import com.gvip.snrb.sdk.constants.BundleKeys;
 import com.gvip.snrb.sdk.constants.Codes;
+import com.gvip.snrb.sdk.tasks.HttpGetTask;
+
+import java.util.ArrayList;
 
 /**
  * Created by Patrick on 9/30/2017.
@@ -43,6 +49,8 @@ public class NumbersInventoryActivity extends AppCompatActivity {
 
             }
         });
+        mRecyclerView.setAdapter(mNumberListAdapter);
+
         mAddNumberButton = (Button) findViewById(R.id.add_number_button);
         mAddNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +60,24 @@ public class NumbersInventoryActivity extends AppCompatActivity {
             }
         });
 
-        mNoNumbersTextView.setVisibility(View.VISIBLE);
+        HttpGetTask task = new HttpGetTask(new ICallbackEvent<ArrayList<String>, Exception>() {
+            @Override
+            public void onSuccess(ArrayList<String> results) {
+                mNumberListAdapter.addNumbers(results);
+                mNoNumbersTextView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mNumberListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, e.getMessage());
+                mNoNumbersTextView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+            }
+        });
+        task.execute(ApiClient.buildNumbersInventoryUrl());
+
     }
 
     @Override
